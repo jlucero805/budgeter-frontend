@@ -1,0 +1,28 @@
+.window {
+  margin: 0;
+  padding: 0;
+  max-height: 97vh;
+  min-height: 97vh;
+  max-width: 98vw;
+  min-width: 98vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  width: 40%;
+  height: 90%;
+  border: 1px solid black;
+}
+
+.input-field {
+  /* set of text and input horizontal */
+  display: flex;
+  align-items: center;
+}
+
+.input-box {
+ /* box of an input field  */
+ height: 80%;
+}
