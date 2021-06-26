@@ -28,8 +28,9 @@ const Login = () => {
 		setToken(data.data.token);
 		const allPurchases = await service.getPurchases(data.data.token);
 		setPurchases(allPurchases.data);
-		setLoggedIn(true);
+		console.log(allPurchases.data);
 		resetFields();
+		setLoggedIn(true);
 	}
 
 	return (
