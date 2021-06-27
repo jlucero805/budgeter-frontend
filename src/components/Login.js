@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { strings } from '../res/strings'
 import { useUser } from '../providers/UserProvider'
 import {service} from '../services/service'
@@ -10,6 +10,20 @@ const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
+	// auto-login if token exists
+	useEffect(() => {
+		const tempToken = localStorage.getItem('token');
+		if (tempToken) {
+			setToken(tempToken);
+			service.getPurchases(tempToken)
+				.then(purchases => {
+					setPurchases(purchases.data);
+					resetFields();
+					setLoggedIn(true);
+				})
+		}
+	}, []);
+
 	const usernameChanger = e => { setUsername(e.target.value); }
 	const passwordChanger = e => { setPassword(e.target.value); }
 
@@ -18,7 +32,9 @@ const Login = () => {
 		setPassword('');
 	}
 
-	const loginClicker = async () => {
+	const loginClicker = async () => { login(); }
+
+	const login = async () => {
 		const data = await service.login({username: username, password: password});
 		if (data.data.error) {
 			console.log("error");
@@ -26,6 +42,7 @@ const Login = () => {
 			return
 		}
 		setToken(data.data.token);
+		localStorage.setItem('token', data.data.token);
 		const allPurchases = await service.getPurchases(data.data.token);
 		setPurchases(allPurchases.data);
 		console.log(allPurchases.data);

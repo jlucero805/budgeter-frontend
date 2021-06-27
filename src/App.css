@@ -26,3 +26,14 @@
  /* box of an input field  */
  height: 80%;
 }
+
+.hide {
+  /* hide */
+  display: none;
+}
+
+.nopad {
+  /* takes off all padding and margin */
+  margin: 0;
+  padding: 0;
+}
