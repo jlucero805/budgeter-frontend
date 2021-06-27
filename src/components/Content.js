@@ -3,13 +3,17 @@ import { useUser } from '../providers/UserProvider'
 import { service } from '../services/service';
 import { isThisWeek, isThisMonth, isToday, isThisHour, parseJSON } from 'date-fns';
 import { strings } from '../res/strings';
+import { funcs } from '../utils/funcs';
+import Navbar from './Navbar';
 
 const Content = () => {
 	const { token, setToken } = useUser();
 	const { purchases, setPurchases } = useUser();
 	const { types, setTypes } = useUser();
-	const {loggedIn, setLoggedIn} = useUser();
+	const { loggedIn, setLoggedIn } = useUser();
+	const { page, setPage } = useUser();
 
+	// if adder field shows or not
 	const [adder, setAdder] = useState(true);
 	// adder field
 	const [type, setType] = useState('Materialistic Desires');
@@ -40,14 +44,18 @@ const Content = () => {
 		}
 	}
 
-	const dataClicker = async () => {
-		setAdder(state => false);
-		setShowData(state => true);
+	const dataPageClicker = async () => {
+		// shows data and closes adder
+		// setAdder(state => false);
+		// setShowData(state => true);
+		setPage('data');
 	}
 
-	const addClicker = () => {
-		setAdder(state => true);
-		setShowData(state => false);
+	const purchasePageClicker = () => {
+		// shows adder and closes data
+		// setAdder(state => true);
+		// setShowData(state => false);
+		setPage('purchases');
 	}
 
 	const purchaseDeleter = async (id) => {
@@ -63,12 +71,41 @@ const Content = () => {
 	}
 
 	return (
-		<div>
-			<div className="nav">navbar</div>
-			<h2>{strings.TOTAL}: {purchases.reduce((acc, purchase) => acc + purchase.cost, 0).toFixed(2)}</h2>
-			<button className="add-btn" onClick={addClicker}>{strings.ADD}</button>
-			<button onClick={dataClicker}>{strings.SHOW_DATA}</button>
-			<div className={showData ? '' : 'hide'}>
+		<div className="content">
+			<h2>{strings.TOTAL}: {funcs.toUsd(purchases.reduce((acc, purchase) => acc + purchase.cost, 0))}</h2>
+			<Navbar />
+
+			<button className="add-btn" onClick={purchasePageClicker}>{strings.ADD}</button>
+			<button onClick={dataPageClicker}>{strings.SHOW_DATA}</button>
+
+			{/* purchases */}
+			<div className={page === 'purchases' ? '' : "hide"}>
+
+				<div className="adder-box">
+					{adder ? <div className="add-menu">
+						<div className="input-field"><p>{strings.ITEM}: </p> <input onChange={e => itemChanger(e)} value={item}></input></div>
+						<div className="input-field"><p>{strings.COST}: </p> <input type="number" onChange={e => costChanger(e)} value={cost}></input></div>
+						<div className="input-field"><p>{strings.TYPE}: </p>
+							<select onChange={e => typeChanger(e)} value={type}>
+								{types.map(def => (
+									<option key={def}>{def}</option>
+								))}
+							</select>
+						</div>
+						<div><button onClick={saveClicker}>{strings.SAVE}</button></div>
+					</div> : null}
+				</div>
+
+				<div className="purchases">
+					{purchases.map(purchase => (
+						<div key={purchase.id}>
+							{`${funcs.toUsd(purchase.cost)} - ${purchase.item}`} <button onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
+						</div>))}
+				</div>
+			</div>
+
+
+			<div className={page === 'data' ? '' : 'hide'}>
 				<h4 className="nopad">{strings.MONTHLY}: {purchases.filter(purchase => isThisMonth(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0).toFixed(2)}</h4>
 				<h4 className="nopad">{strings.WEEKLY}: {purchases.filter(purchase => isThisWeek(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0).toFixed(2)}</h4>
 				<h4 className="nopad">{strings.DAILY}: {purchases.filter(purchase => isToday(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0).toFixed(2)}</h4>
@@ -80,27 +117,6 @@ const Content = () => {
 					</h4>
 				)) : null}
 			</div>
-			{
-				adder ? <div className="add-menu">
-					<div className="input-field"><p>{strings.ITEM}: </p> <input onChange={e => itemChanger(e)} value={item}></input></div>
-					<div className="input-field"><p>{strings.COST}: </p> <input type="number" onChange={e => costChanger(e)} value={cost}></input></div>
-					<div className="input-field"><p>{strings.TYPE}: </p>
-						<select onChange={e => typeChanger(e)} value={type}>
-							{types.map(def => (
-								<option key={def}>{def}</option>
-							))}
-						</select>
-					</div>
-					<div><button onClick={saveClicker}>{strings.SAVE}</button></div>
-				</div> : null
-			}
-			{
-				purchases.map(purchase => (
-					<div key={purchase.id}>
-						{`$${purchase.cost} - ${purchase.item}`} <button onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
-					</div>
-				))
-			}
 			<button onClick={logoutClicker}>{strings.LOGOUT}</button>
 		</div >
 	)

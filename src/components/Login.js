@@ -61,16 +61,10 @@ const Login = () => {
 	return (
 		<div className="window">
 			<div className="login-box">
-				<h2>Login</h2>
-				<div className="input-field">
-					<p>{strings.USERNAME}</p>
-					<input className="input-box" onChange={e => usernameChanger(e) } value={username}></input>
-				</div>
-				<div className="input-field">
-					<p>{strings.PASSWORD}</p>
-					<input className="input-box" onChange={e => passwordChanger(e) } value={password}></input>
-				</div>
-				<button onClick={loginClicker}>login</button>
+				<h2 className="plain-text">{strings.LOGIN}</h2>
+					<input placeholder={strings.USERNAME} className="login-input nopad" onChange={e => usernameChanger(e) } value={username}></input>
+					<input placeholder={strings.PASSWORD} className="login-input nopad" onChange={e => passwordChanger(e) } value={password}></input>
+				<button className="login-btn nopad" onClick={loginClicker}>{strings.LOGIN}</button>
 			</div>
 		</div>
 	)

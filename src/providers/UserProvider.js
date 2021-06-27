@@ -9,7 +9,7 @@ export const useUser = () => {
 export const UserProvider = ({children}) => {
 	const [token, setToken] = useState('');
 	const [purchases, setPurchases] = useState([]);
-	const [page, setPage] = useState("");
+	const [page, setPage] = useState("purchases");
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [types, setTypes] = useState([]);
 
@@ -18,7 +18,8 @@ export const UserProvider = ({children}) => {
 			token, setToken,
 			purchases, setPurchases,
 			loggedIn, setLoggedIn,
-			types, setTypes
+			types, setTypes,
+			page, setPage
 		}}>
 			{children}
 		</UserContext.Provider>

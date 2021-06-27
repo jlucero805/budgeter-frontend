@@ -2,7 +2,7 @@ export const strings = {
 	USERNAME: "username",
 	PASSWORD: 'password',
 	TOTAL: 'total',
-	ADD: "add",
+	ADD: "purchases",
 	SHOW_DATA: "show data",
 	MONTHLY: "monthly",
 	DAILY: "daily",
@@ -13,5 +13,6 @@ export const strings = {
 	TYPE: "type",
 	SAVE: "save",
 	DELETE: "delete",
-	LOGOUT: "logout"
+	LOGOUT: "logout",
+	LOGIN: "login"
 }
