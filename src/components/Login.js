@@ -7,6 +7,7 @@ const Login = () => {
 	const {token, setToken} = useUser();
 	const {loggedIn, setLoggedIn} = useUser();
 	const {purchases, setPurchases} = useUser();
+	const {types, setTypes} = useUser();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -19,8 +20,12 @@ const Login = () => {
 				.then(purchases => {
 					setPurchases(purchases.data);
 					resetFields();
+				});
+			service.getTypes(tempToken)
+				.then(types => {
+					setTypes(types.data.types);
 					setLoggedIn(true);
-				})
+				});
 		}
 	}, []);
 
@@ -43,9 +48,12 @@ const Login = () => {
 		}
 		setToken(data.data.token);
 		localStorage.setItem('token', data.data.token);
+		// get purchases
 		const allPurchases = await service.getPurchases(data.data.token);
 		setPurchases(allPurchases.data);
-		console.log(allPurchases.data);
+		// get types
+		const types = await service.getTypes(data.data.token);
+		setTypes(types.data.types);
 		resetFields();
 		setLoggedIn(true);
 	}

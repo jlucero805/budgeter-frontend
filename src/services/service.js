@@ -37,10 +37,20 @@ const deletePurchase = (token, id) => {
 	return axios.delete(`${baseUrl}/purchase/${id}`, config);
 }
 
+const getTypes = token => {
+	const config = {
+		headers: {
+			authorization: `Bearer ${token}`
+		}
+	}
+	return axios.get(`${baseUrl}/user/types`, config);
+}
+
 export const service = {
 	login,
 	createAccount,
 	getPurchases,
 	addPurchase,
-	deletePurchase
+	deletePurchase,
+	getTypes
 }

@@ -6,6 +6,8 @@ import { isThisWeek, isThisMonth, isToday, isThisHour, parseJSON } from 'date-fn
 const Content = () => {
 	const { token, setToken } = useUser();
 	const { purchases, setPurchases } = useUser();
+	const { types, setTypes } = useUser();
+
 	const [adder, setAdder] = useState(true);
 	// adder field
 	const [type, setType] = useState('Materialistic Desires');
@@ -69,11 +71,12 @@ const Content = () => {
 				<h4 className="nopad">weekly: {purchases.filter(purchase => isThisWeek(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0)}</h4>
 				<h4 className="nopad">daily: {purchases.filter(purchase => isToday(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0)}</h4>
 				<h4 className="nopad">hourly: {purchases.filter(purchase => isThisHour(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0)}</h4>
-				{defaults.map(def => (
+				<p></p>
+				{types.length > 0 ? types.map(def => (
 					<h4 key={def} className="nopad">
 						{def} : {purchases.filter(purchase => purchase.type === def).reduce((acc, purchase) => acc + purchase.cost, 0)}
 					</h4>
-				))}
+				)) : null}
 			</div>
 			{
 				adder ? <div className="add-menu">
@@ -81,7 +84,7 @@ const Content = () => {
 					<div className="input-field"><p>cost: </p> <input type="number" onChange={e => costChanger(e)} value={cost}></input></div>
 					<div className="input-field"><p>type: </p>
 						<select onChange={e => typeChanger(e)} value={type}>
-							{defaults.map(def => (
+							{types.map(def => (
 								<option key={def}>{def}</option>
 							))}
 						</select>

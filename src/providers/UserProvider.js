@@ -11,12 +11,14 @@ export const UserProvider = ({children}) => {
 	const [purchases, setPurchases] = useState([]);
 	const [page, setPage] = useState("");
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [types, setTypes] = useState([]);
 
 	return (
 		<UserContext.Provider value={{
 			token, setToken,
 			purchases, setPurchases,
-			loggedIn, setLoggedIn
+			loggedIn, setLoggedIn,
+			types, setTypes
 		}}>
 			{children}
 		</UserContext.Provider>
