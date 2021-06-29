@@ -1,8 +1,13 @@
-body {
-  background-color: grey;
+:root {
+  --background-main: #2a2b3a;
+  --box-main: #6b305c;
+  --input: #a03c3c;
+  --text: #cabbc9;
 }
 
-
+body {
+  background-color: var(--background-main);
+}
 
 .window {
   margin: 0;
@@ -35,6 +40,7 @@ body {
 .input-box {
  /* box of an input field  */
  height: 80%;
+ background-color: var(--input);
 }
 
 .login-input {
@@ -71,7 +77,6 @@ body {
 }
 
 .adder-box {
-  border: 1px solid black;
   width: 80vw;
   border-radius: 1em;
   padding: .5em .5em .5em .5em;
@@ -79,13 +84,33 @@ body {
 
 .purchases {
   /* box of all purchases */
-  border: 1px solid black;
   width: 80vw;
   border-radius: 1em;
   padding: .5em .5em .5em .5em;
 }
 
 .box {
-  border: 1px solid black;
-  background: white;
+  background: var(--box-main);
+  margin: 1em 0 1em 0;
+  border-radius: 1em;
+  padding: .5em;
+}
+
+.input {
+  background-color: var(--input);
+  border: none;
+  border-radius: 1em;
+  padding: 0 .5em 0 .5em;
+  font-size: 1rem;
+}
+
+.btn {
+  background-color: var(--input);
+  border: none;
+  border-radius: .5em;
+  margin: .5em .5em .5em .5em;
+}
+
+.text {
+  color: var(--text);
 }

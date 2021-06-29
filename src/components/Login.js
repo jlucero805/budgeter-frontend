@@ -63,7 +63,7 @@ const Login = () => {
 			<div className="login-box">
 				<h2 className="plain-text">{strings.LOGIN}</h2>
 					<input placeholder={strings.USERNAME} className="login-input nopad" onChange={e => usernameChanger(e) } value={username}></input>
-					<input placeholder={strings.PASSWORD} className="login-input nopad" onChange={e => passwordChanger(e) } value={password}></input>
+					<input placeholder={strings.PASSWORD} className="login-input nopad" onChange={e => passwordChanger(e) } value={password} type="password"></input>
 				<button className="login-btn nopad" onClick={loginClicker}>{strings.LOGIN}</button>
 			</div>
 		</div>
