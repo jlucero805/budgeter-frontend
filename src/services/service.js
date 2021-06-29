@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = process.REACT_APP_ENV === 'dev' ? process.env.REACT_APP_URL : process.env.REACT_APP_URL_HEROKU;
+const baseUrl = process.env.REACT_APP_ENV === 'dev' ? process.env.REACT_APP_URL : process.env.REACT_APP_URL_HEROKU;
+console.log(baseUrl);
 
 const createAccount = body => {
 	return axios.post(`${baseUrl}/auth/user`, body);

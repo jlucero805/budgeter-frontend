@@ -81,7 +81,7 @@ const Content = () => {
 			{/* purchases */}
 			<div className={page === 'purchases' ? '' : "hide"}>
 
-				<div className="adder-box">
+				<div className="adder-box box">
 					{adder ? <div className="add-menu">
 						<div className="input-field"><p>{strings.ITEM}: </p> <input onChange={e => itemChanger(e)} value={item}></input></div>
 						<div className="input-field"><p>{strings.COST}: </p> <input type="number" onChange={e => costChanger(e)} value={cost}></input></div>
@@ -96,7 +96,7 @@ const Content = () => {
 					</div> : null}
 				</div>
 
-				<div className="purchases">
+				<div className="purchases box">
 					{purchases.map(purchase => (
 						<div key={purchase.id}>
 							{`${funcs.toUsd(purchase.cost)} - ${purchase.item}`} <button onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
