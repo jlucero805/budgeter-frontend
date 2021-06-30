@@ -3,6 +3,7 @@ export const strings = {
 	PASSWORD: 'password',
 	TOTAL: 'total',
 	ADD: "purchases",
+	EDIT: 'edit',
 	SHOW_DATA: "show data",
 	MONTHLY: "monthly",
 	DAILY: "daily",

@@ -19,8 +19,9 @@ const Content = () => {
 	const [type, setType] = useState('Materialistic Desires');
 	const [item, setItem] = useState('');
 	const [cost, setCost] = useState('');
-	// show data
-	const [showData, setShowData] = useState(false);
+	// show delete btn
+	const [edit, setEdit] = useState(false);
+
 
 	const typeChanger = e => { setType(e.target.value); }
 	const itemChanger = e => { setItem(e.target.value); }
@@ -70,6 +71,8 @@ const Content = () => {
 		setCost('');
 	}
 
+	const editClicker = () => { setEdit(prev => !prev); }
+
 	return (
 		<div className="content">
 			<h2 className="text">{strings.TOTAL}: {funcs.toUsd(purchases.reduce((acc, purchase) => acc + purchase.cost, 0))}</h2>
@@ -99,11 +102,15 @@ const Content = () => {
 				</div>
 
 				<div className="purchases box">
+					<div className="menu">
+						<button onClick={editClicker} className="btn">{strings.EDIT}</button>
+					</div>
 					{purchases.map(purchase => (
 						<div key={purchase.id}>
-							{`${funcs.toUsd(purchase.cost)} - ${purchase.item}`} <button onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
+							{`${funcs.toUsd(purchase.cost)} - ${purchase.item}`} <button className={edit ? "btn" : "hide"} onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
 						</div>))}
 				</div>
+
 			</div>
 
 
@@ -124,6 +131,15 @@ const Content = () => {
 				</div>
 			</div>
 			<button className="btn text" onClick={logoutClicker}>{strings.LOGOUT}</button>
+			
+			{/* <div className="popup">
+				<div className="popup-window box">
+					<p>detail</p>
+					<p>detail</p>
+					<p>detail</p>
+				</div>
+			</div> */}
+
 		</div >
 	)
 }
