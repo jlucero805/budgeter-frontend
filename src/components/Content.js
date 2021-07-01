@@ -78,16 +78,16 @@ const Content = () => {
 			<h2 className="text">{strings.TOTAL}: {funcs.toUsd(purchases.reduce((acc, purchase) => acc + purchase.cost, 0))}</h2>
 			<Navbar />
 
-			<div className="menu">
+			<div className="menu box">
 				<button className="add-btn btn text" onClick={purchasePageClicker}>{strings.ADD}</button>
 				<button className="btn text" onClick={dataPageClicker}>{strings.SHOW_DATA}</button>
 			</div>
 
 			{/* purchases */}
-			<div className={page === 'purchases' ? '' : "hide"}>
+			<div className={page === 'purchases' ? 'purchases' : "hide"}>
 
 				<div className="adder-box box">
-					{adder ? <div className="add-menu">
+					{adder ? <div className="add-menu box">
 						<div className="input-field text"><p>{strings.ITEM}: </p> <input className="input text" onChange={e => itemChanger(e)} value={item}></input></div>
 						<div className="input-field text"><p>{strings.COST}: </p> <input className="input text" type="number" onChange={e => costChanger(e)} value={cost}></input></div>
 						<div className="input-field text"><p>{strings.TYPE}: </p>
@@ -102,7 +102,7 @@ const Content = () => {
 				</div>
 
 				<div className="purchases box">
-					<div className="menu">
+					<div className="menu box">
 						<button onClick={editClicker} className="btn">{strings.EDIT}</button>
 					</div>
 					{purchases.map(purchase => (
@@ -114,7 +114,7 @@ const Content = () => {
 			</div>
 
 
-			<div className={page === 'data' ? '' : 'hide'}>
+			<div className={page === 'data' ? 'purchases' : 'hide'}>
 				<div className="box">
 					<h4 className="nopad text">{strings.MONTHLY}: {purchases.filter(purchase => isThisMonth(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0).toFixed(2)}</h4>
 					<h4 className="nopad text">{strings.WEEKLY}: {purchases.filter(purchase => isThisWeek(parseJSON(purchase.date))).reduce((acc, purchase) => acc + purchase.cost, 0).toFixed(2)}</h4>
@@ -131,7 +131,7 @@ const Content = () => {
 				</div>
 			</div>
 			<button className="btn text" onClick={logoutClicker}>{strings.LOGOUT}</button>
-			
+
 			{/* <div className="popup">
 				<div className="popup-window box">
 					<p>detail</p>

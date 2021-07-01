@@ -72,29 +72,25 @@ body {
 .content {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content:flex-start;
   align-items:center;
   min-height: 100vh;
 }
 
 .adder-box {
-  width: 80vw;
-  border-radius: 1em;
-  padding: .5em .5em .5em .5em;
+  width: 97%;
 }
 
 .purchases {
   /* box of all purchases */
-  width: 80vw;
-  border-radius: 1em;
-  padding: .5em .5em .5em .5em;
+  width: 97%;
 }
 
 .box {
   background: var(--box-main);
   margin: 1em 0 1em 0;
   border-radius: 1em;
-  padding: .5em;
+  padding: .2em .3em .2em .3em;
 }
 
 .input {
@@ -129,4 +125,14 @@ body {
 .popup-window {
   width: 60%;
   background-color: var(--box-main);
+}
+
+.menu {
+  display: flex;
+  background-color: var(--box-main);
+  width: 97%;
+}
+
+.add-menu {
+  width: 97%;
 }
