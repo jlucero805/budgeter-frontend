@@ -114,6 +114,8 @@ body {
 
 .popup {
   position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,7 +125,7 @@ body {
 }
 
 .popup-window {
-  width: 60%;
+  width: 90%;
   background-color: var(--box-main);
 }
 
@@ -135,4 +137,14 @@ body {
 
 .add-menu {
   width: 97%;
+}
+
+.split {
+  display: flex;
+  justify-content: space-between;
+}
+
+.purchase-item {
+  margin-top: .5em;
+  margin-bottom: .5em;
 }

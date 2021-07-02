@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useUser } from '../providers/UserProvider'
 import { service } from '../services/service';
-import { isThisWeek, isThisMonth, isToday, isThisHour, parseJSON } from 'date-fns';
+import { formatRFC7231, isThisWeek, isThisMonth, isToday, isThisHour, parseJSON } from 'date-fns';
 import { strings } from '../res/strings';
 import { funcs } from '../utils/funcs';
 import Navbar from './Navbar';
@@ -14,7 +14,7 @@ const Content = () => {
 	const { page, setPage } = useUser();
 
 	// if adder field shows or not
-	const [adder, setAdder] = useState(true);
+	const [adder, setAdder] = useState(false);
 	// adder field
 	const [type, setType] = useState('Materialistic Desires');
 	const [item, setItem] = useState('');
@@ -22,6 +22,9 @@ const Content = () => {
 	// show delete btn
 	const [edit, setEdit] = useState(false);
 
+	// detail item
+	const [detail, setDetail] = useState({});
+	const [detailPage, setDetailPage] = useState(false);
 
 	const typeChanger = e => { setType(e.target.value); }
 	const itemChanger = e => { setItem(e.target.value); }
@@ -42,8 +45,11 @@ const Content = () => {
 			const newPurchase = await service.addPurchase(token, { item: item, type: type, cost: cost });
 			setPurchases(purchase => [newPurchase.data].concat(purchase));
 			resetFields();
+			cancelClicker();
 		}
 	}
+
+	const cancelClicker = () => { setAdder(prev => false); }
 
 	const dataPageClicker = async () => {
 		// shows data and closes adder
@@ -73,6 +79,18 @@ const Content = () => {
 
 	const editClicker = () => { setEdit(prev => !prev); }
 
+	const addClicker = () => { setAdder(prev => true); }
+
+	const openClicker = object => {
+		setDetail(object);
+		setDetailPage(prev => true);
+	}
+
+	const closeClicker = () => {
+		setDetail({});
+		setDetailPage(prev => false);
+	}
+
 	return (
 		<div className="content">
 			<h2 className="text">{strings.TOTAL}: {funcs.toUsd(purchases.reduce((acc, purchase) => acc + purchase.cost, 0))}</h2>
@@ -86,8 +104,9 @@ const Content = () => {
 			{/* purchases */}
 			<div className={page === 'purchases' ? 'purchases' : "hide"}>
 
-				<div className="adder-box box">
-					{adder ? <div className="add-menu box">
+				{/* <div className={adder ? "adder-box box" : "hide"} > */}
+				<div className={adder ? "popup" : "hide"} >
+					{adder ? <div className="popup-window box">
 						<div className="input-field text"><p>{strings.ITEM}: </p> <input className="input text" onChange={e => itemChanger(e)} value={item}></input></div>
 						<div className="input-field text"><p>{strings.COST}: </p> <input className="input text" type="number" onChange={e => costChanger(e)} value={cost}></input></div>
 						<div className="input-field text"><p>{strings.TYPE}: </p>
@@ -97,17 +116,25 @@ const Content = () => {
 								))}
 							</select>
 						</div>
-						<div><button className="btn text" onClick={saveClicker}>{strings.SAVE}</button></div>
+						<div>
+							<button className="btn text" onClick={saveClicker}>{strings.SAVE}</button>
+							<button className="btn text" onClick={cancelClicker}>{strings.CANCEL}</button>
+						</div>
 					</div> : null}
 				</div>
 
 				<div className="purchases box">
 					<div className="menu box">
+						<button onClick={addClicker} className="btn">{strings.ADDER}</button>
 						<button onClick={editClicker} className="btn">{strings.EDIT}</button>
 					</div>
 					{purchases.map(purchase => (
-						<div key={purchase.id}>
-							{`${funcs.toUsd(purchase.cost)} - ${purchase.item}`} <button className={edit ? "btn" : "hide"} onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
+						<div className="split" key={purchase.id}>
+							<p className="purchase-item">{`${funcs.toUsd(purchase.cost)} - ${purchase.item}`}</p>
+							<div>
+								<button className={edit ? 'btn' : 'hide'} onClick={() => openClicker(purchase)}>{strings.OPEN}</button>
+								<button className={edit ? "btn" : "hide"} onClick={() => purchaseDeleter(purchase.id)}>{strings.DELETE}</button>
+							</div>
 						</div>))}
 				</div>
 
@@ -132,13 +159,17 @@ const Content = () => {
 			</div>
 			<button className="btn text" onClick={logoutClicker}>{strings.LOGOUT}</button>
 
-			{/* <div className="popup">
-				<div className="popup-window box">
-					<p>detail</p>
-					<p>detail</p>
-					<p>detail</p>
+			{detailPage
+				? <div className="popup">
+					<div className="popup-window box">
+						<p>{detail.item}</p>
+						<p>{detail.type}</p>
+						<p>{funcs.toUsd(detail.cost)}</p>
+						<p>{formatRFC7231(parseJSON(detail.date))}</p>
+						<button className="btn" onClick={closeClicker}>{strings.CLOSE}</button>
+					</div>
 				</div>
-			</div> */}
+				: null }
 
 		</div >
 	)
